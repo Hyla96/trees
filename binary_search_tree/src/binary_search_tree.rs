@@ -28,7 +28,7 @@ impl BinarySearchTree {
         return false;
     }
 
-    pub fn delete(&mut self, key: i64) {}
+    // pub fn delete(&mut self, key: i64) {}
 
     pub fn search(&self, key: i64) -> Option<Box<Node>> {
         let node = Node {
@@ -41,10 +41,16 @@ impl BinarySearchTree {
     }
 
     pub fn print_tree(&self) {
+        println!("");
+        println!("{}", "-".repeat(50));
+        println!("");
         println!("Tree structure:");
         if let Some(ref root) = self.root {
             print_tree_structure(root, "", true);
         }
+        println!("");
+        println!("{}", "-".repeat(50));
+        println!("");
     }
 }
 
