@@ -6,6 +6,12 @@ pub struct Node {
     pub right: Option<Box<Node>>,
 }
 
+impl Node {
+    pub fn print(&self) {
+        println!("Key: {} | Value: {}", self.key, self.value)
+    }
+}
+
 pub struct BinarySearchTree {
     pub length: usize,
     pub root: Option<Box<Node>>,
@@ -58,12 +64,18 @@ fn search(node: &Box<Node>, key: i64) -> Option<Box<Node>> {
         return Some(node.clone());
     }
 
-    if let Some(ref right) = node.right {
-        return search(right, key);
+    if let Some(ref right_node) = node.right {
+        let right = search(right_node, key);
+        if !right.is_none() {
+            return right;
+        }
     }
 
-    if let Some(ref left) = node.left {
-        return search(left, key);
+    if let Some(ref left_node) = node.left {
+        let left = search(left_node, key);
+        if !left.is_none() {
+            return left;
+        }
     }
 
     return None;
