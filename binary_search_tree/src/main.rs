@@ -22,4 +22,15 @@ fn main() {
     }
 
     bst.print_tree();
+
+    const NODES_TO_SEARCH: [i64; 8] = [10, 0, 12, 19, 6, 28, 2, 11];
+
+    for key in NODES_TO_SEARCH.iter() {
+        let node = bst.search(*key);
+        if let Some(ref node) = node {
+            node.print();
+        } else {
+            println!("Node with key {} not found", key);
+        }
+    }
 }
