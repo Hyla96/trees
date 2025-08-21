@@ -57,5 +57,5 @@ fn main() {
 
     bst.insert(Box::new(node_5));
 
-    bst.print();
+    bst.print_tree();
 }

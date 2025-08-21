@@ -40,9 +40,10 @@ impl BinarySearchTree {
         return Some(Box::new(node));
     }
 
-    pub fn print(&self) {
+    pub fn print_tree(&self) {
+        println!("Tree structure:");
         if let Some(ref root) = self.root {
-            print_node(root)
+            print_tree_structure(root, "", true);
         }
     }
 }
@@ -67,6 +68,28 @@ fn insert_node(root: &mut Box<Node>, node: Box<Node>) -> bool {
     return false;
 }
 
-fn print_node(node: &Box<Node>) {
-    println!("{node:?}!");
+fn print_tree_structure(node: &Box<Node>, prefix: &str, is_last: bool) {
+    println!(
+        "{}{}{}:{}",
+        prefix,
+        if is_last { "└── " } else { "├── " },
+        node.key,
+        node.value
+    );
+
+    let new_prefix = format!("{}{}", prefix, if is_last { "    " } else { "│   " });
+
+    match (&node.left, &node.right) {
+        (Some(left), Some(right)) => {
+            print_tree_structure(left, &new_prefix, false);
+            print_tree_structure(right, &new_prefix, true);
+        }
+        (Some(left), None) => {
+            print_tree_structure(left, &new_prefix, true);
+        }
+        (None, Some(right)) => {
+            print_tree_structure(right, &new_prefix, true);
+        }
+        (None, None) => {}
+    }
 }
