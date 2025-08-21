@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Node {
     pub key: i64,
     pub value: String,
@@ -31,13 +31,11 @@ impl BinarySearchTree {
     // pub fn delete(&mut self, key: i64) {}
 
     pub fn search(&self, key: i64) -> Option<Box<Node>> {
-        let node = Node {
-            key: key,
-            value: "".to_string(),
-            left: None,
-            right: None,
-        };
-        return Some(Box::new(node));
+        if let Some(ref root) = self.root {
+            return search(root, key);
+        }
+
+        return None;
     }
 
     pub fn print_tree(&self) {
@@ -52,6 +50,23 @@ impl BinarySearchTree {
         println!("{}", "-".repeat(50));
         println!("");
     }
+}
+
+// Returns only a copy
+fn search(node: &Box<Node>, key: i64) -> Option<Box<Node>> {
+    if node.key == key {
+        return Some(node.clone());
+    }
+
+    if let Some(ref right) = node.right {
+        return search(right, key);
+    }
+
+    if let Some(ref left) = node.left {
+        return search(left, key);
+    }
+
+    return None;
 }
 
 fn insert_node(root: &mut Box<Node>, node: Box<Node>) -> bool {
