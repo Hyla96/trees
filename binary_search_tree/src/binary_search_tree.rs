@@ -104,18 +104,13 @@ fn search(node: &Box<Node>, key: i64) -> Option<Box<Node>> {
         return Some(node.clone());
     }
 
-    if let Some(ref right_node) = node.right {
-        let right = search(right_node, key);
-        if !right.is_none() {
-            return right;
+    if key > node.key {
+        if let Some(ref right_node) = node.right {
+            return search(right_node, key);
         }
-    }
-
-    if let Some(ref left_node) = node.left {
-        let left = search(left_node, key);
-        if !left.is_none() {
-            return left;
-        }
+        return None;
+    } else if let Some(ref left_node) = node.left {
+        return search(left_node, key);
     }
 
     return None;
