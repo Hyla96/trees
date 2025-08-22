@@ -166,3 +166,80 @@ fn print_tree_structure(node: &Box<Node>, prefix: &str, is_last: bool) {
         (None, None) => {}
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn create_test_tree() -> BinarySearchTree {
+        let mut bst = BinarySearchTree::new();
+        let values = [10, 6, 15, 3, 8, 12, 20];
+
+        for value in values {
+            bst.insert(Box::new(Node {
+                key: value,
+                value: format!("Node {}", value),
+                left: None,
+                right: None,
+            }));
+        }
+        bst
+    }
+
+    #[test]
+    fn test_insert_single_node() {
+        let mut bst = BinarySearchTree::new();
+        bst.insert(Box::new(Node {
+            key: 10,
+            value: "Root".to_string(),
+            left: None,
+            right: None,
+        }));
+
+        assert!(bst.root.is_some());
+        if let Some(ref root) = bst.root {
+            assert_eq!(root.key, 10);
+            assert_eq!(root.value, "Root");
+        }
+    }
+
+    #[test]
+    fn test_search_existing_node() {
+        let bst = create_test_tree();
+
+        let result = bst.search(15);
+        assert!(result.is_some());
+        if let Some(node) = result {
+            assert_eq!(node.key, 15);
+            assert_eq!(node.value, "Node 15");
+        }
+    }
+
+    #[test]
+    fn test_search_nonexistent_node() {
+        let bst = create_test_tree();
+        let result = bst.search(100);
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_delete_leaf_node() {
+        let mut bst = create_test_tree();
+        let result = bst.delete(3);
+        assert!(result);
+
+        let search_result = bst.search(3);
+        assert!(search_result.is_none());
+    }
+
+    #[test]
+    fn test_delete_node_with_two_children() {
+        let mut bst = create_test_tree();
+        let result = bst.delete(6);
+        assert!(result);
+
+        assert!(bst.search(6).is_none());
+        assert!(bst.search(3).is_some());
+        assert!(bst.search(8).is_some());
+    }
+}
