@@ -33,4 +33,8 @@ fn main() {
             println!("Node with key {} not found", key);
         }
     }
+
+    bst.delete(19);
+
+    bst.print_tree();
 }

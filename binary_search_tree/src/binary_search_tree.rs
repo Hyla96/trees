@@ -34,7 +34,9 @@ impl BinarySearchTree {
         return false;
     }
 
-    // pub fn delete(&mut self, key: i64) {}
+    pub fn delete(&mut self, key: i64) -> bool {
+        return delete(&mut self.root, key);
+    }
 
     pub fn search(&self, key: i64) -> Option<Box<Node>> {
         if let Some(ref root) = self.root {
@@ -56,6 +58,27 @@ impl BinarySearchTree {
         println!("{}", "-".repeat(50));
         println!("");
     }
+}
+
+fn delete(n: &mut Option<Box<Node>>, key: i64) -> bool {
+    if let Some(node) = n {
+        if node.key == key {
+            *n = None;
+            return true;
+        }
+
+        let deleted = delete(&mut node.right, key);
+        if deleted {
+            return true;
+        }
+
+        let deleted = delete(&mut node.left, key);
+        if deleted {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 // Returns only a copy
