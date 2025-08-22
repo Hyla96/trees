@@ -39,15 +39,19 @@ fn main() {
         }
     }
 
+    println!("Deleting key 6");
     bst.delete(6);
     bst.print_tree();
 
+    println!("Deleting key 19");
     bst.delete(19);
     bst.print_tree();
 
+    println!("Deleting key 20");
     bst.delete(20);
     bst.print_tree();
 
+    println!("Deleting key 10");
     bst.delete(10);
     bst.print_tree();
 }
