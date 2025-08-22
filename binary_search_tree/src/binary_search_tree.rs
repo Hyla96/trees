@@ -63,21 +63,38 @@ impl BinarySearchTree {
 fn delete(n: &mut Option<Box<Node>>, key: i64) -> bool {
     if let Some(node) = n {
         if node.key == key {
-            *n = None;
+            if node.left.is_none() && node.right.is_none() {
+                *n = None;
+            } else if node.left.is_none() {
+                *n = node.right.take();
+            } else if node.right.is_none() {
+                *n = node.left.take();
+            } else {
+                // Find inorder successor (leftmost node in right subtree)
+                if let Some(ref mut right_subtree) = node.right {
+                    let mut pivot = right_subtree.as_mut();
+                    while pivot.left.is_some() {
+                        pivot = pivot.left.as_mut().unwrap();
+                    }
+
+                    let successor_key = pivot.key;
+                    let successor_value = pivot.value.clone();
+
+                    node.key = successor_key;
+                    node.value = successor_value;
+
+                    delete(&mut node.right, successor_key);
+                }
+            }
             return true;
         }
 
-        let deleted = delete(&mut node.right, key);
-        if deleted {
-            return true;
+        if key > node.key {
+            return delete(&mut node.right, key);
         }
 
-        let deleted = delete(&mut node.left, key);
-        if deleted {
-            return true;
-        }
+        return delete(&mut node.left, key);
     }
-
     return false;
 }
 

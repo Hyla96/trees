@@ -1,12 +1,17 @@
 pub mod binary_search_tree;
 
-const NODES: [(i64, &str); 6] = [
+const NODES: [(i64, &str); 11] = [
     (10, "Root Node"),
     (12, "Node 1"),
     (19, "Node 2"),
     (6, "Node 3"),
     (2, "Node 4"),
     (11, "Node 5"),
+    (7, "Node 6"),
+    (17, "Node 7"),
+    (20, "Node 8"),
+    (25, "Node 9"),
+    (22, "Node 10"),
 ];
 
 fn main() {
@@ -34,7 +39,15 @@ fn main() {
         }
     }
 
-    bst.delete(19);
+    bst.delete(6);
+    bst.print_tree();
 
+    bst.delete(19);
+    bst.print_tree();
+
+    bst.delete(20);
+    bst.print_tree();
+
+    bst.delete(10);
     bst.print_tree();
 }
